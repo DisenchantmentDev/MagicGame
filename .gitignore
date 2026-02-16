@@ -53,3 +53,9 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# Raylib relevant ignores
+/thirdparty/raylib/**
+!/thirdparty/raylib/
+!/thirdparty/raylib/src/
+!/thirdparty/raylib/src/raylib.h

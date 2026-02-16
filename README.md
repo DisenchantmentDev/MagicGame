@@ -1,2 +1,3 @@
-# MagicGame
-A video game made with Raylib
+# MagicGame Setup
+
+
