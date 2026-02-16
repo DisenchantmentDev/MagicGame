@@ -62,9 +62,3 @@ compile_commands.json
 *.old
 nob
 build/**
-
-# Raylib relevant ignores
-/thirdparty/raylib/**
-!/thirdparty/raylib/
-!/thirdparty/raylib/src/
-!/thirdparty/raylib/src/raylib.h
