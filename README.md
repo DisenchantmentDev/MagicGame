@@ -10,7 +10,7 @@ git clone https://github.com/DisenchantmentDev/MagicGame.git MagicGame
 ```
 
 - Run the setup.sh script
-    - If you are on windows, call the next command through git shell
+    - If you are on Windows, call the next command through git shell
 
 ```bash
 bash setup.sh
@@ -20,9 +20,18 @@ bash setup.sh
 
 ## Windows
 - Ensure you have a working installation of MSVC for C compilation.
-    - You can do this with [this link](https://visualstudio.microsoft.com/vs/community/) for Visual Studio itself.
-    - You can also download just the compiler and not the entirety of VS.
-- You should be able to compile the `nob.c` file into a `nob.exe` with msvc
+    - To do this, go to [this link](https://visualstudio.microsoft.com/downloads/)
+    - Scroll to the **All Downloads** section, and open **Tools for Visual Studio**
+    - Download **Build Tools for Visual Studio** and run the installer
+    - Add whatever you want, but you only need **Desktop development with C++** workload
+    - Run that and you should be able to go
+- Once MSVC is installed, open **Developer Command Prompt for VS 2022**
+- Navigate to the directory of the game, and run the command:
+
+```bash
+cl nob.c
+```
+
 - Run `nob.exe` to compile the game proper
 - This should output a working .exe of the game.
 
