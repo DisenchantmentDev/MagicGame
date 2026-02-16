@@ -9,15 +9,6 @@ These steps are going to be the same no matter what operating system you run
 git clone https://github.com/DisenchantmentDev/MagicGame.git MagicGame
 ```
 
-- Run the setup.sh script
-    - If you are on Windows, call the next command through git shell
-
-```bash
-bash setup.sh
-```
-
-- This should clone the relevant, most recent version of raylib into `/thirdparty/raylib` for building
-
 ## Windows
 - Ensure you have a working installation of MSVC for C compilation.
     - To do this, go to [this link](https://visualstudio.microsoft.com/downloads/)
