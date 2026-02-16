@@ -10,23 +10,19 @@ git clone https://github.com/DisenchantmentDev/MagicGame.git MagicGame
 ```
 
 - Run the setup.sh script
-    - If you are on windows, do this through the git shell
+    - If you are on windows, call the next command through git shell
 
 ```bash
 bash setup.sh
 ```
 
-- Then clone raylib into the raylib folder
-
-```bash
-git clone --depth 1 https://github.com/raysan5/raylib.git thirdparty/raylib
-```
+- This should clone the relevant, most recent version of raylib into `/thirdparty/raylib` for building
 
 ## Windows
 - Ensure you have a working installation of MSVC for C compilation.
     - You can do this with [this link](https://visualstudio.microsoft.com/vs/community/) for Visual Studio itself.
     - You can also download just the compiler and not the entirety of VS.
-- You should be able to compile the `nob.c` file into a `nob.exe`
+- You should be able to compile the `nob.c` file into a `nob.exe` with msvc
 - Run `nob.exe` to compile the game proper
 - This should output a working .exe of the game.
 
