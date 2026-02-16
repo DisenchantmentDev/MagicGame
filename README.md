@@ -5,16 +5,22 @@ These steps are going to be the same no matter what operating system you run
 
 - Clone the repository onto local machine into whatever directory you wish
 
-`git clone https://github.com/DisenchantmentDev/MagicGame.git MagicGame`
+```bash
+git clone https://github.com/DisenchantmentDev/MagicGame.git MagicGame
+```
 
 - Run the setup.sh script
     - If you are on windows, do this through the git shell
 
-`bash setup.sh`
+```bash
+bash setup.sh
+```
 
 - Then clone raylib into the raylib folder
 
-`git clone --depth 1 https://github.com/raysan5/raylib.git thirdparty/raylib`
+```bash
+git clone --depth 1 https://github.com/raysan5/raylib.git thirdparty/raylib
+```
 
 ## Windows
 - Ensure you have a working installation of MSVC for C compilation.
@@ -28,10 +34,14 @@ These steps are going to be the same no matter what operating system you run
 - Make sure relevant libraries are downloaded
 - Compile the `nob.c` file
 
-`gcc nob nob.c`
+```bash
+gcc nob nob.c
+```
 
 - Run nob to compile
 
-`./nob`
+```bash
+./nob
+```
 
 - Run the game
