@@ -40,7 +40,7 @@ cl nob.c
 - Compile the `nob.c` file
 
 ```bash
-gcc nob nob.c
+gcc -o nob nob.c
 ```
 
 - Run nob to compile
