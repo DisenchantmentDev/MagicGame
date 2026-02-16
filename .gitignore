@@ -53,12 +53,15 @@ dkms.conf
 # debug information files
 *.dwo
 
-# Format files
+# clang stuff
 .clang-format
+.clangd
+compile_commands.json
 
 # nob stuff
 *.old
 nob
+build/**
 
 # Raylib relevant ignores
 /thirdparty/raylib/**

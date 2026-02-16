@@ -2,12 +2,16 @@
 
 #define NOB_IMPLEMENTATION
 #define NOB_STRIP_PREFIX
+#define RAYLIB_SRC_FOLDER "thirdparty/raylib/src/"
 
-#include "./thirdparty/nob.h"
+#include "thirdparty/nob.h"
 
 bool build_game(void);
 bool build_raylib(void);
 bool raylib_exists(void);
+
+static const char *raylib_modules[] = {"rcore", "raudio", "rmodels", "rtext",
+                                       "rtextures"};
 
 #if defined(linux) || defined(__linux) || defined(__linux__)
 #include "./src_build/nob_linux.c"
@@ -16,10 +20,6 @@ bool raylib_exists(void);
 #else
 #error "No target is defined."
 #endif
-
-static const char *raylib_modules[] = {
-    "rcore", "raudio", "rmodels", "rtext", "rtextures", "utils",
-};
 
 int main(int argc, char **argv) {
     NOB_GO_REBUILD_URSELF_PLUS(argc, argv, "./src_build/nob_linux.c",
@@ -31,17 +31,10 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    if (!raylib_exists()) {
-        nob_log(INFO, "Building Raylib");
-        build_raylib();
-    }
+    nob_log(INFO, "Building Raylib");
+    build_raylib();
 
-    bool game = build_game();
-    if (game) {
-        nob_log(INFO, "Building on linux");
-    } else {
-        nob_log(INFO, "Building on Windows");
-    }
+    build_game();
 
     return 0;
 }
