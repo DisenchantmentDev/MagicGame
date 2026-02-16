@@ -6,10 +6,6 @@
 
 #include "thirdparty/nob.h"
 
-bool build_game(void);
-bool build_raylib(void);
-bool raylib_exists(void);
-
 static const char *raylib_modules[] = {"rcore", "raudio", "rmodels", "rtext",
                                        "rtextures"};
 
@@ -32,7 +28,7 @@ int main(int argc, char **argv) {
     }
 
     nob_log(INFO, "Building Raylib");
-    build_raylib();
+    smol_build_raylib();
 
     build_game();
 

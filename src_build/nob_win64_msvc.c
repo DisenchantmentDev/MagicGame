@@ -65,7 +65,7 @@ bool build_raylib(void) {
 
     for (size_t i = 0; i < NOB_ARRAY_LEN(raylib_modules); ++i) {
         const char *input_path =
-            nob_temp_sprintf(RAYLIB_SRC_FOLDER "%s.c", raylib_modules[i]);
+            nob_temp_sprintf(RAYLIB_SRC_FOLDER"%s.c", raylib_modules[i]);
         const char *output_path =
             nob_temp_sprintf("%s%s.obj", build_path, raylib_modules[i]);
 
@@ -76,7 +76,7 @@ bool build_raylib(void) {
             nob_cmd_append(&cmd, "cl.exe", "/DPLATFORM_DESKTOP",
                            "/DSUPPORT_FILEFORMAT_FLAC=1");
             nob_cmd_append(&cmd, "/I",
-                           RAYLIB_SRC_FOLDER "external/glfw/include");
+                           RAYLIB_SRC_FOLDER"external/glfw/include");
             nob_cmd_append(&cmd, "/c", input_path);
             nob_cmd_append(&cmd, nob_temp_sprintf("/Fo%s", output_path));
             Nob_Proc proc = nob_cmd_run_async(cmd);

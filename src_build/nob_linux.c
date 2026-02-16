@@ -8,12 +8,14 @@ bool build_game(void) {
     Cmd cmd = {0};
     Procs procs = {0};
 
-    cmd_append(&cmd, "gcc", "-Wall", "-Wextra", "-ggdb", "-I.",
-               "-I"RAYLIB_SRC_FOLDER, "-o", "./build/magic_game",
-               "./src/main.c", /* include source files on this line */
-               temp_sprintf("-L./build/raylib/%s", MAGICGAME_TARGET_NAME),
-               "-l:libraylib.a", "-O3", "-march=native", "-ffast-math", "-lm",
-               "-ldl", "-flto=auto", "-lpthread");
+    cmd_append(&cmd, "gcc", "src/main.c", "-I"RAYLIB_SRC_FOLDER, "thirdparty/raylib/src/libraylib.a", "-o", "./build/magic_game", "-lm", "-lpthread", "-ldl", "-lrt", "-lX11");
+
+    //cmd_append(&cmd, "gcc", "-Wall", "-Wextra", "-ggdb", "-I.",
+    //           "-I"RAYLIB_SRC_FOLDER, "-o", "./build/magic_game",
+    //           "./src/main.c", /* include source files on this line */
+    //           temp_sprintf("-L./build/raylib/%s", MAGICGAME_TARGET_NAME),
+    //           "-l:libraylib.a", "-O3", "-march=native", "-ffast-math", "-lm",
+    //           "-ldl", "-flto=auto", "-lpthread");
     if (!cmd_run(&cmd))
         return_defer(false);
 
@@ -23,7 +25,23 @@ defer:
     return result;
 }
 
-bool build_raylib(void) {
+bool smol_build_raylib(void) {
+    bool result = true;
+    Cmd cmd = {0};
+    Procs procs = {0};
+
+    cmd_append(&cmd, "make", "-C", "./thirdparty/raylib/src/", "PLATFORM=DPLATFORM_DESKTOP");
+
+    if (!cmd_run(&cmd))
+        return_defer(false);
+
+defer:
+    cmd_free(cmd);
+    da_free(procs);
+    return result;
+}
+
+bool big_build_raylib(void) {
     bool result = true;
     Cmd cmd = {0};
     File_Paths object_files = {0};
@@ -69,7 +87,6 @@ bool build_raylib(void) {
         }
         if (!cmd_run(&cmd)) return_defer(false);
     }
-
 defer:
     cmd_free(cmd);
     da_free(object_files);
