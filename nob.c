@@ -28,7 +28,8 @@ int main(int argc, char **argv) {
     }
 
     nob_log(INFO, "Building Raylib");
-    smol_build_raylib();
+    build_raylib();
+    //big_build_raylib();
 
     build_game();
 

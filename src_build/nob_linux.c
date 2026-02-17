@@ -25,12 +25,13 @@ defer:
     return result;
 }
 
-bool smol_build_raylib(void) {
+bool build_raylib(void) {
     bool result = true;
     Cmd cmd = {0};
     Procs procs = {0};
 
-    cmd_append(&cmd, "make", "-C", "./thirdparty/raylib/src/", "PLATFORM=DPLATFORM_DESKTOP");
+    cmd_append(&cmd, "make", "-C", "./thirdparty/raylib/src/", 
+               "PLATFORM=PLATFORM_DESKTOP");
 
     if (!cmd_run(&cmd))
         return_defer(false);

@@ -47,6 +47,23 @@ defer:
 
 bool build_raylib(void) {
     bool result = true;
+    Cmd cmd = {0};
+    Procs procs = {0};
+    
+    cmd_append(&cmd, "nmake.exe", "/F", "./thirdparty/raylib/src/Makefile", 
+               "PLATFORM=PLATFORM_DESKTOP");
+
+    if (!cmd_run(&cmd))
+        return_defer(false);
+
+defer:
+    nob_cmd_free(cmd);
+    nob_da_free(procs);
+    return result;
+}
+
+bool big_build_raylib(void) {
+    bool result = true;
     Nob_Cmd cmd = {0};
     Nob_File_Paths object_files = {0};
 
