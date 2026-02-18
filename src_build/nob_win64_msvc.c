@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #define MAGICGAME_TARGET_NAME "win64-msvc"
+#define MAGICGAME_WIN64_DIR "\\thirdparty\\raylib\\win64_msvc"
 
 bool build_game(void) {
     bool result = true;
@@ -16,115 +17,19 @@ bool build_game(void) {
      * if (!nob_cmd_run_cync(cmd)) nob_return_defer(false);
      */
 
-    cmd.count = 0;
-    nob_cmd_append(&cmd, "cl.exe");
-    nob_cmd_append(&cmd, "/I", "./");
-    nob_cmd_append(&cmd, "/I", RAYLIB_SRC_FOLDER);
-    nob_cmd_append(&cmd, "cl.exe");
-    nob_cmd_append(&cmd, "/I", "./");
-    nob_cmd_append(&cmd, "/I", RAYLIB_SRC_FOLDER);
-    nob_cmd_append(&cmd, "/Fobuild\\", "/Febuild\\musializer.exe");
-    nob_cmd_append(&cmd,
-                   "./src/main.c"); // add any further relevant source files
-                                    // into this command. Example below:
-    // nob_cmd_append(&cmd, "./src/musializer.c", "./src/plug.c",
-    //                "./src/ffmpeg_windows.c",
-    //                "./thirdparty/tinyfiledialogs.c");
-    nob_cmd_append(
-        &cmd, "/link", "/SUBSYSTEM:WINDOWS", "/entry:mainCRTStartup",
-        nob_temp_sprintf("/LIBPATH:build/raylib/%s", MAGICGAME_TARGET_NAME),
-        "raylib.lib");
-    nob_cmd_append(&cmd, "Winmm.lib", "gdi32.lib", "User32.lib", "Shell32.lib",
-                   "Ole32.lib", "comdlg32.lib", "./build/musializer.res");
+    //cmd.count = 0;
+    nob_cmd_append(&cmd, "cl.exe", 
+                   "src/main.c", /* add any other source files here */
+                   "/I", nob_temp_sprintf("%s\\include", MAGICGAME_WIN64_DIR), 
+                   "/link", nob_temp_sprintf("/LIBPATH:%s\\lib", MAGICGAME_WIN64_DIR), "raylib.lib",
+                   "User32.lib", "gdi32.lib", "Winmm.lib", "Shell32.lib", "opengl32.lib");
+
     if (!nob_cmd_run_sync(cmd))
         nob_return_defer(false);
 
 defer:
     nob_cmd_free(cmd);
     nob_da_free(procs);
-    return result;
-}
-
-bool build_raylib(void) {
-    bool result = true;
-    Cmd cmd = {0};
-    Procs procs = {0};
-    
-    cmd_append(&cmd, "nmake.exe", "/F", "./thirdparty/raylib/src/Makefile", 
-               "PLATFORM=PLATFORM_DESKTOP");
-
-    if (!cmd_run(&cmd))
-        return_defer(false);
-
-defer:
-    nob_cmd_free(cmd);
-    nob_da_free(procs);
-    return result;
-}
-
-bool big_build_raylib(void) {
-    bool result = true;
-    Nob_Cmd cmd = {0};
-    Nob_File_Paths object_files = {0};
-
-    if (!nob_mkdir_if_not_exists("./build/raylib")) {
-        nob_return_defer(false);
-    }
-
-    Nob_Procs procs = {0};
-
-    const char *build_path =
-        nob_temp_sprintf("./build/raylib/%s", MAGICGAME_TARGET_NAME);
-
-    if (!nob_mkdir_if_not_exists(build_path)) {
-        nob_return_defer(false);
-    }
-
-    for (size_t i = 0; i < NOB_ARRAY_LEN(raylib_modules); ++i) {
-        const char *input_path =
-            nob_temp_sprintf(RAYLIB_SRC_FOLDER"%s.c", raylib_modules[i]);
-        const char *output_path =
-            nob_temp_sprintf("%s%s.obj", build_path, raylib_modules[i]);
-
-        nob_da_append(&object_files, output_path);
-
-        if (nob_needs_rebuild(output_path, *input_path, 1)) {
-            cmd.count = 0;
-            nob_cmd_append(&cmd, "cl.exe", "/DPLATFORM_DESKTOP",
-                           "/DSUPPORT_FILEFORMAT_FLAC=1");
-            nob_cmd_append(&cmd, "/I",
-                           RAYLIB_SRC_FOLDER"external/glfw/include");
-            nob_cmd_append(&cmd, "/c", input_path);
-            nob_cmd_append(&cmd, nob_temp_sprintf("/Fo%s", output_path));
-            Nob_Proc proc = nob_cmd_run_async(cmd);
-            nob_da_append(&procs, proc);
-        }
-    }
-    cmd.count = 0;
-
-    if (!nob_procs_wait(procs))
-        nob_return_defer(false);
-
-    if (nob_needs_rebuild("./build/raylib.dll", object_files.items,
-                          object_files.count)) {
-        nob_cmd_append(&cmd, "link.exe", "/DLL");
-        for (size_t i = 0; i < NOB_ARRAY_LEN(raylib_modules); ++i) {
-            const char *input_path =
-                nob_temp_sprintf("%s/%s.obj", build_path, raylib_modules[i]);
-            nob_cmd_append(&cmd, input_path);
-        }
-        nob_cmd_append(&cmd, "Winmm.lib", "gdi32.lib", "User32.lib",
-                       "Shell32.lib");
-        nob_cmd_append(&cmd,
-                       nob_temp_sprintf("/IMPLIB:%s/raylib.lib", build_path));
-        nob_cmd_append(&cmd, "/OUT:./build/raylib.dll");
-        if (!nob_cmd_run_sync(cmd))
-            nob_return_defer(false);
-    }
-
-defer:
-    nob_cmd_free(cmd);
-    nob_da_free(object_files);
     return result;
 }
 

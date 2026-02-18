@@ -1,5 +1,5 @@
-#include "../thirdparty/raylib/src/raylib.h"
 #include <stdio.h>
+#include <raylib.h>
 
 int main(int argc, char **argv) {
     InitWindow(600, 600, "Game");

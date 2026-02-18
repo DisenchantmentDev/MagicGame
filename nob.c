@@ -2,7 +2,7 @@
 
 #define NOB_IMPLEMENTATION
 #define NOB_STRIP_PREFIX
-#define RAYLIB_SRC_FOLDER "thirdparty/raylib/src/"
+#define RAYLIB_SRC_FOLDER "thirdparty/raylib/"
 
 #include "thirdparty/nob.h"
 
@@ -26,10 +26,6 @@ int main(int argc, char **argv) {
     if (!mkdir_if_not_exists("build")) {
         return 1;
     }
-
-    nob_log(INFO, "Building Raylib");
-    build_raylib();
-    //big_build_raylib();
 
     build_game();
 
