@@ -23,6 +23,7 @@ git clone https://github.com/DisenchantmentDev/MagicGame.git MagicGame
 cl nob.c
 ```
 
+    - Note that this only needs to be run once. Only run if you do *not* have nob.exe in your folder.
 - Run `nob.exe` to compile the game proper
 - This should output a working .exe of the game.
 
