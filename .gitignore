@@ -51,6 +51,7 @@ dkms.conf
 # clang stuff
 .clang-format
 .clangd
+/.cache/*
 compile_commands.json
 
 # nob stuff

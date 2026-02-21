@@ -6,9 +6,6 @@
 
 #include "thirdparty/nob.h"
 
-static const char *raylib_modules[] = {"rcore", "raudio", "rmodels", "rtext",
-                                       "rtextures"};
-
 #if defined(linux) || defined(__linux) || defined(__linux__)
 #include "./src_build/nob_linux.c"
 #elif defined(WIN32) || defined(_WIN32) || defined(_MSC_VER)
