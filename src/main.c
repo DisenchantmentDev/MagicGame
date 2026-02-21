@@ -7,6 +7,11 @@ int main(int argc, char **argv) {
     SetTargetFPS(30);
     while (!WindowShouldClose()) {
         BeginDrawing();
+
+        if(IsKeyPressed(KEY_F11)){
+            ToggleFullscreen();
+        }
+
         ClearBackground(BLACK);
         EndDrawing();
     }
