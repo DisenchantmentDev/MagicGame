@@ -17,7 +17,14 @@ int main(int argc, char **argv) {
     sprintf(glumbus_buffer, "%s/resources/temp/Trum.png", dir);
     Texture2D trum = LoadTexture(glumbus_buffer);
 
-    Vector2 position = {300.0f, 300.0f};
+    Vector2 position = {150.0f, 150.0f};
+
+    Camera2D camera = {0};
+    camera.target = (Vector2){position.x + 30.0f, position.y + 30.0f};
+    camera.offset =
+        (Vector2){GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f};
+    camera.rotation = 0.0f;
+    camera.zoom = 1.0f;
 
     while (!WindowShouldClose()) {
 
@@ -25,12 +32,28 @@ int main(int argc, char **argv) {
             ToggleFullscreen();
         }
 
+        /* ---- CONTROLS ---- */
+        if (IsKeyDown(KEY_D))
+            position.x += 2;
+        else if (IsKeyDown(KEY_A))
+            position.x -= 2;
+
+        if (IsKeyDown(KEY_S))
+            position.y += 2;
+        else if (IsKeyDown(KEY_W))
+            position.y -= 2;
+
+        /* ---- Camera Follow Player ---- */
+        camera.target = (Vector2){position.x + 30.0f, position.y + 30.0f};
+
         /* ---- DRAWING ---- */
         BeginDrawing();
         ClearBackground(BLACK);
 
+        BeginMode2D(camera);
         DrawTextureEx(glumbus, position, 0.0f, 3.0f, WHITE);
         DrawTextureEx(trum, (Vector2){100.0f, 100.0f}, 0.0f, 1.0f, WHITE);
+        EndMode2D();
 
         EndDrawing();
     }
