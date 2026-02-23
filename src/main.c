@@ -1,5 +1,6 @@
 #include <raylib.h>
 #include <stdio.h>
+#define NUM_GLUMBUS 2
 
 int main(int argc, char **argv) {
     /* ---- WINDOW INITIALIZATION ---- */
@@ -10,8 +11,18 @@ int main(int argc, char **argv) {
     /* ---- Loading Directory and textures ---- */
     const char *dir = GetWorkingDirectory();
     char glumbus_buffer[100];
+
     sprintf(glumbus_buffer, "%s/resources/temp/glumbus.png", dir);
-    Texture2D glumbus = LoadTexture(glumbus_buffer);
+    Image glumbus_right = LoadImage(glumbus_buffer);
+    Image glumbus_left = LoadImage(glumbus_buffer);
+    ImageFlipHorizontal(&glumbus_left);
+
+    Texture2D glumbuses[NUM_GLUMBUS] = {0};
+
+    glumbuses[0] = LoadTextureFromImage(glumbus_right);
+    glumbuses[1] = LoadTextureFromImage(glumbus_left);
+
+    int currentGlumbus = 0;
 
     /* Just reuse the same buffer for seperate textures */
     sprintf(glumbus_buffer, "%s/resources/temp/Trum.png", dir);
@@ -26,6 +37,7 @@ int main(int argc, char **argv) {
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
 
+    bool facingRight = true;
     while (!WindowShouldClose()) {
 
         if (IsKeyPressed(KEY_F11)) {
@@ -33,11 +45,20 @@ int main(int argc, char **argv) {
         }
 
         /* ---- CONTROLS ---- */
-        if (IsKeyDown(KEY_D))
+        if (IsKeyDown(KEY_D)){
+            if(!facingRight) {
+                currentGlumbus = (currentGlumbus + 1) % NUM_GLUMBUS;
+                facingRight = !facingRight;
+            }
             position.x += 2;
-        else if (IsKeyDown(KEY_A))
+        }
+        else if (IsKeyDown(KEY_A)){
+            if(facingRight) {
+                currentGlumbus = (currentGlumbus + 1) % NUM_GLUMBUS;
+                facingRight = !facingRight;
+            }
             position.x -= 2;
-
+        }
         if (IsKeyDown(KEY_S))
             position.y += 2;
         else if (IsKeyDown(KEY_W))
@@ -51,7 +72,7 @@ int main(int argc, char **argv) {
         ClearBackground(BLACK);
 
         BeginMode2D(camera);
-        DrawTextureEx(glumbus, position, 0.0f, 3.0f, WHITE);
+        DrawTextureEx(glumbuses[currentGlumbus], position, 0.0f, 3.0f, WHITE);
         DrawTextureEx(trum, (Vector2){100.0f, 100.0f}, 0.0f, 1.0f, WHITE);
         EndMode2D();
 
@@ -59,7 +80,9 @@ int main(int argc, char **argv) {
     }
 
     /* ---- Unloading textures and contexts; General cleanup space ---- */
-    UnloadTexture(glumbus);
+    for(int i = 0; i < NUM_GLUMBUS; i++) {
+        UnloadTexture(glumbuses[i]);
+    }
     CloseWindow();
     return 0;
 }
