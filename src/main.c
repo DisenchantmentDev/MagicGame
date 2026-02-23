@@ -12,6 +12,11 @@ int main(int argc, char **argv) {
     char glumbus_buffer[100];
     sprintf(glumbus_buffer, "%s/resources/temp/glumbus.png", dir);
     Texture2D glumbus = LoadTexture(glumbus_buffer);
+
+    /* Just reuse the same buffer for seperate textures */
+    sprintf(glumbus_buffer, "%s/resources/temp/Trum.png", dir);
+    Texture2D trum = LoadTexture(glumbus_buffer);
+
     Vector2 position = {300.0f, 300.0f};
 
     while (!WindowShouldClose()) {
@@ -25,6 +30,7 @@ int main(int argc, char **argv) {
         ClearBackground(BLACK);
 
         DrawTextureEx(glumbus, position, 0.0f, 3.0f, WHITE);
+        DrawTextureEx(trum, (Vector2){100.0f, 100.0f}, 0.0f, 1.0f, WHITE);
 
         EndDrawing();
     }
