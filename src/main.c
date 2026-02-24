@@ -18,10 +18,10 @@ int main(int argc, char **argv) {
     Image glumbus_left = LoadImage(glumbus_buffer);
     ImageFlipHorizontal(&glumbus_left);
 
-    Texture2D glumbuses[NUM_GLUMBUS] = {0};
+    Texture2D glumbi[NUM_GLUMBUS] = {0};
 
-    glumbuses[0] = LoadTextureFromImage(glumbus_right);
-    glumbuses[1] = LoadTextureFromImage(glumbus_left);
+    glumbi[0] = LoadTextureFromImage(glumbus_right);
+    glumbi[1] = LoadTextureFromImage(glumbus_left);
 
     int currentGlumbus = 0;
 
@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
         ClearBackground(BLACK);
 
         BeginMode2D(camera);
-        DrawTextureEx(glumbuses[currentGlumbus], position, 0.0f, 3.0f, WHITE);
+        DrawTextureEx(glumbi[currentGlumbus], position, 0.0f, 3.0f, WHITE);
         DrawTextureEx(trum, (Vector2){100.0f, 100.0f}, 0.0f, 1.0f, WHITE);
         EndMode2D();
 
@@ -81,7 +81,7 @@ int main(int argc, char **argv) {
 
     /* ---- Unloading textures and contexts; General cleanup space ---- */
     for (int i = 0; i < NUM_GLUMBUS; i++) {
-        UnloadTexture(glumbuses[i]);
+        UnloadTexture(glumbi[i]);
     }
     CloseWindow();
     return 0;
