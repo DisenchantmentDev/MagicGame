@@ -1,6 +1,7 @@
-#include <raylib.h>
 #include <stdio.h>
-#define NUM_GLUMBUS 2
+
+#include "main.h"
+#include "world.h"
 
 int main(int argc, char **argv) {
     /* ---- WINDOW INITIALIZATION ---- */
@@ -37,6 +38,9 @@ int main(int argc, char **argv) {
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
 
+    /* Unused for now but testing header file stuff */
+    GameCtx gamectx = {camera};
+
     while (!WindowShouldClose()) {
 
         if (IsKeyPressed(KEY_F11)) {
@@ -44,14 +48,13 @@ int main(int argc, char **argv) {
         }
 
         /* ---- CONTROLS ---- */
-        if (IsKeyDown(KEY_D)){
-            if(currentGlumbus != 0) {
+        if (IsKeyDown(KEY_D)) {
+            if (currentGlumbus != 0) {
                 currentGlumbus = (currentGlumbus + 1) % NUM_GLUMBUS;
             }
             position.x += 2;
-        }
-        else if (IsKeyDown(KEY_A)){
-            if(currentGlumbus != 1) {
+        } else if (IsKeyDown(KEY_A)) {
+            if (currentGlumbus != 1) {
                 currentGlumbus = (currentGlumbus + 1) % NUM_GLUMBUS;
             }
             position.x -= 2;
@@ -77,7 +80,7 @@ int main(int argc, char **argv) {
     }
 
     /* ---- Unloading textures and contexts; General cleanup space ---- */
-    for(int i = 0; i < NUM_GLUMBUS; i++) {
+    for (int i = 0; i < NUM_GLUMBUS; i++) {
         UnloadTexture(glumbuses[i]);
     }
     CloseWindow();

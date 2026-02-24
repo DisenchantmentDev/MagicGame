@@ -17,13 +17,14 @@ bool build_game(void) {
      * if (!nob_cmd_run_cync(cmd)) nob_return_defer(false);
      */
 
-    //cmd.count = 0;
-    nob_cmd_append(&cmd, "cl.exe", "/MD", 
-                   "src/main.c", /* add any other source files here */
-                   "/I", nob_temp_sprintf("%s\\include", MAGICGAME_WIN64_DIR), 
-                   "/Fobuild\\", "/Febuild\\magic_game.exe",
-                   "/link", nob_temp_sprintf("/LIBPATH:%s\\lib", MAGICGAME_WIN64_DIR), "raylib.lib",
-                   "User32.lib", "gdi32.lib", "Winmm.lib", "Shell32.lib", "opengl32.lib");
+    // cmd.count = 0;
+    nob_cmd_append(
+        &cmd, "cl.exe", "/MD",
+        "src/main.c", /* add any other source files here */
+        "/I", nob_temp_sprintf("%s\\include", MAGICGAME_WIN64_DIR), "/I",
+        "src/include", "/Fobuild\\", "/Febuild\\magic_game.exe", "/link",
+        nob_temp_sprintf("/LIBPATH:%s\\lib", MAGICGAME_WIN64_DIR), "raylib.lib",
+        "User32.lib", "gdi32.lib", "Winmm.lib", "Shell32.lib", "opengl32.lib");
 
     if (!nob_cmd_run_sync(cmd))
         nob_return_defer(false);

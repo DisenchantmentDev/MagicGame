@@ -9,9 +9,12 @@ bool build_game(void) {
     Cmd cmd = {0};
     Procs procs = {0};
 
-    cmd_append(&cmd, "gcc", "src/main.c", /* add any further files we add here. Can probably export into it's own loop */
-               "-I"MAGICGAME_LINUX_DIR"include/", "-L", MAGICGAME_LINUX_DIR"lib", "-l:libraylib.a", "-o", 
-               "./build/magic_game", "-lm", "-lpthread", "-ldl", "-lrt", "-lX11");
+    cmd_append(
+        &cmd, "gcc", "src/main.c", /* add any further files we add here. Can
+                                      probably export into it's own loop */
+        "-I" MAGICGAME_LINUX_DIR "include/", "-I./src/include", "-L",
+        MAGICGAME_LINUX_DIR "lib", "-l:libraylib.a", "-o", "./build/magic_game",
+        "-lm", "-lpthread", "-ldl", "-lrt", "-lX11");
 
     if (!cmd_run(&cmd))
         return_defer(false);
