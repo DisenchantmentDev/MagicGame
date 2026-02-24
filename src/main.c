@@ -37,7 +37,6 @@ int main(int argc, char **argv) {
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
 
-    bool facingRight = true;
     while (!WindowShouldClose()) {
 
         if (IsKeyPressed(KEY_F11)) {
@@ -46,16 +45,14 @@ int main(int argc, char **argv) {
 
         /* ---- CONTROLS ---- */
         if (IsKeyDown(KEY_D)){
-            if(!facingRight) {
+            if(currentGlumbus != 0) {
                 currentGlumbus = (currentGlumbus + 1) % NUM_GLUMBUS;
-                facingRight = !facingRight;
             }
             position.x += 2;
         }
         else if (IsKeyDown(KEY_A)){
-            if(facingRight) {
+            if(currentGlumbus != 1) {
                 currentGlumbus = (currentGlumbus + 1) % NUM_GLUMBUS;
-                facingRight = !facingRight;
             }
             position.x -= 2;
         }
