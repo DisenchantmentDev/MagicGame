@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-#include "main.h"
 #include "player.h"
 #include "world.h"
 
@@ -16,7 +15,6 @@ int main(int argc, char **argv) {
 
     sprintf(glumbus_buffer, "%s/resources/temp/glumbus.png", dir);
     Image glumbus = LoadImage(glumbus_buffer);
-    ImageFlipHorizontal(&glumbus);
 
     Player player = {0};
     init_player(&player, glumbus);

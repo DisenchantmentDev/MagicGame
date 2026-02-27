@@ -17,15 +17,10 @@ void draw_current_glumbus(Player *p) {
                              GLUMBUS_SPRITE_SIZE};
 
     /* Actually drawing the sprite from the sheet */
-    if (p->mov_dir.x == MOV_RIGHT) {
-        // DrawTexturePro(p->sprite, source, destination, )
-        DrawTexturePro(p->sprite, source, destination, (Vector2){0, 0}, 0.0f,
-                       WHITE);
-    } else if (p->mov_dir.x == MOV_LEFT) {
+    if (p->mov_dir.x == MOV_RIGHT)
         source.width = -source.width;
-        DrawTexturePro(p->sprite, source, destination, (Vector2){0, 0}, 0.0f,
-                       WHITE);
-    }
+    DrawTexturePro(p->sprite, source, destination, (Vector2){0, 0}, 0.0f,
+                   WHITE);
 }
 
 void player_move(Player *p) {
