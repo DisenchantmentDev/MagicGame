@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "main.h"
+#include "player.h"
 #include "world.h"
 
 int main(int argc, char **argv) {
@@ -14,29 +15,22 @@ int main(int argc, char **argv) {
     char glumbus_buffer[100];
 
     sprintf(glumbus_buffer, "%s/resources/temp/glumbus.png", dir);
-    Image glumbus_right = LoadImage(glumbus_buffer);
-    Image glumbus_left = LoadImage(glumbus_buffer);
-    ImageFlipHorizontal(&glumbus_left);
+    Image glumbus = LoadImage(glumbus_buffer);
+    ImageFlipHorizontal(&glumbus);
 
-    Texture2D glumbi[NUM_GLUMBUS] = {0};
-
-    glumbi[0] = LoadTextureFromImage(glumbus_right);
-    glumbi[1] = LoadTextureFromImage(glumbus_left);
-
-    int currentGlumbus = 0;
+    Player player = {0};
+    init_player(&player, glumbus);
 
     /* Just reuse the same buffer for seperate textures */
     sprintf(glumbus_buffer, "%s/resources/temp/Trum.png", dir);
     Texture2D trum = LoadTexture(glumbus_buffer);
 
-    Vector2 position = {150.0f, 150.0f};
-
     Camera2D camera = {0};
-    camera.target = (Vector2){position.x + 30.0f, position.y + 30.0f};
+    camera.target = (Vector2){player.pos.x + 30.0f, player.pos.y + 30.0f};
     camera.offset =
         (Vector2){GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f};
     camera.rotation = 0.0f;
-    camera.zoom = 1.0f;
+    camera.zoom = 1.5f;
 
     /* Unused for now but testing header file stuff */
     GameCtx gamectx = {camera};
@@ -48,31 +42,17 @@ int main(int argc, char **argv) {
         }
 
         /* ---- CONTROLS ---- */
-        if (IsKeyDown(KEY_D)) {
-            if (currentGlumbus != 0) {
-                currentGlumbus = (currentGlumbus + 1) % NUM_GLUMBUS;
-            }
-            position.x += 2;
-        } else if (IsKeyDown(KEY_A)) {
-            if (currentGlumbus != 1) {
-                currentGlumbus = (currentGlumbus + 1) % NUM_GLUMBUS;
-            }
-            position.x -= 2;
-        }
-        if (IsKeyDown(KEY_S))
-            position.y += 2;
-        else if (IsKeyDown(KEY_W))
-            position.y -= 2;
+        player_move(&player);
 
         /* ---- Camera Follow Player ---- */
-        camera.target = (Vector2){position.x + 30.0f, position.y + 30.0f};
+        camera.target = (Vector2){player.pos.x + 30.0f, player.pos.y + 30.0f};
 
         /* ---- DRAWING ---- */
         BeginDrawing();
         ClearBackground(BLACK);
 
         BeginMode2D(camera);
-        DrawTextureEx(glumbi[currentGlumbus], position, 0.0f, 3.0f, WHITE);
+        draw_current_glumbus(&player);
         DrawTextureEx(trum, (Vector2){100.0f, 100.0f}, 0.0f, 1.0f, WHITE);
         EndMode2D();
 
@@ -80,9 +60,9 @@ int main(int argc, char **argv) {
     }
 
     /* ---- Unloading textures and contexts; General cleanup space ---- */
-    for (int i = 0; i < NUM_GLUMBUS; i++) {
-        UnloadTexture(glumbi[i]);
-    }
+    UnloadTexture(player.sprite_sheet);
+    UnloadTexture(player.sprite_sheet);
+
     CloseWindow();
     return 0;
 }
