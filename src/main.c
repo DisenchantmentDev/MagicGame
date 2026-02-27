@@ -1,6 +1,7 @@
-#include <raylib.h>
 #include <stdio.h>
-#define NUM_GLUMBUS 2
+
+#include "main.h"
+#include "world.h"
 
 int main(int argc, char **argv) {
     /* ---- WINDOW INITIALIZATION ---- */
@@ -17,10 +18,10 @@ int main(int argc, char **argv) {
     Image glumbus_left = LoadImage(glumbus_buffer);
     ImageFlipHorizontal(&glumbus_left);
 
-    Texture2D glumbuses[NUM_GLUMBUS] = {0};
+    Texture2D glumbi[NUM_GLUMBUS] = {0};
 
-    glumbuses[0] = LoadTextureFromImage(glumbus_right);
-    glumbuses[1] = LoadTextureFromImage(glumbus_left);
+    glumbi[0] = LoadTextureFromImage(glumbus_right);
+    glumbi[1] = LoadTextureFromImage(glumbus_left);
 
     int currentGlumbus = 0;
 
@@ -37,6 +38,9 @@ int main(int argc, char **argv) {
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
 
+    /* Unused for now but testing header file stuff */
+    GameCtx gamectx = {camera};
+
     while (!WindowShouldClose()) {
 
         if (IsKeyPressed(KEY_F11)) {
@@ -44,14 +48,13 @@ int main(int argc, char **argv) {
         }
 
         /* ---- CONTROLS ---- */
-        if (IsKeyDown(KEY_D)){
-            if(currentGlumbus != 0) {
+        if (IsKeyDown(KEY_D)) {
+            if (currentGlumbus != 0) {
                 currentGlumbus = (currentGlumbus + 1) % NUM_GLUMBUS;
             }
             position.x += 2;
-        }
-        else if (IsKeyDown(KEY_A)){
-            if(currentGlumbus != 1) {
+        } else if (IsKeyDown(KEY_A)) {
+            if (currentGlumbus != 1) {
                 currentGlumbus = (currentGlumbus + 1) % NUM_GLUMBUS;
             }
             position.x -= 2;
@@ -69,7 +72,7 @@ int main(int argc, char **argv) {
         ClearBackground(BLACK);
 
         BeginMode2D(camera);
-        DrawTextureEx(glumbuses[currentGlumbus], position, 0.0f, 3.0f, WHITE);
+        DrawTextureEx(glumbi[currentGlumbus], position, 0.0f, 3.0f, WHITE);
         DrawTextureEx(trum, (Vector2){100.0f, 100.0f}, 0.0f, 1.0f, WHITE);
         EndMode2D();
 
@@ -77,8 +80,8 @@ int main(int argc, char **argv) {
     }
 
     /* ---- Unloading textures and contexts; General cleanup space ---- */
-    for(int i = 0; i < NUM_GLUMBUS; i++) {
-        UnloadTexture(glumbuses[i]);
+    for (int i = 0; i < NUM_GLUMBUS; i++) {
+        UnloadTexture(glumbi[i]);
     }
     CloseWindow();
     return 0;
