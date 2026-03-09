@@ -19,9 +19,10 @@ bool build_game(void) {
 
     // cmd.count = 0;
     nob_cmd_append(
-        &cmd, "cl.exe", "/MD",
-        "src/main.c", /* add any other source files here */
-        "/I", nob_temp_sprintf("%s\\include", MAGICGAME_WIN64_DIR), "/I",
+        &cmd, "cl.exe", "/MD", "src/main.c", "src/player.c", "src/game.c",
+        "src/world.c" /* add any other source files here */
+        "/I",
+        nob_temp_sprintf("%s\\include", MAGICGAME_WIN64_DIR), "/I",
         "src/include", "/Fobuild\\", "/Febuild\\magic_game.exe", "/link",
         nob_temp_sprintf("/LIBPATH:%s\\lib", MAGICGAME_WIN64_DIR), "raylib.lib",
         "User32.lib", "gdi32.lib", "Winmm.lib", "Shell32.lib", "opengl32.lib");
