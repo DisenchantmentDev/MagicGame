@@ -6,17 +6,17 @@
 
 void game_init(GameCtx *ctx) {
     /* ---- Loading Directory and textures ---- */
-    const char *dir = GetWorkingDirectory();
+    const char *dir = GetApplicationDirectory();
     char glumbus_buffer[100];
 
-    sprintf(glumbus_buffer, "%s/resources/temp/glumbus.png", dir);
+    sprintf(glumbus_buffer, "%s../resources/temp/glumbus.png", dir);
     Image glumbus = LoadImage(glumbus_buffer);
 
     Player player = {0};
     init_player(&player, glumbus);
 
     /* Just reuse the same buffer for seperate textures */
-    sprintf(glumbus_buffer, "%s/resources/temp/Trum.png", dir);
+    sprintf(glumbus_buffer, "%s../resources/temp/Trum.png", dir);
     Texture2D trum = LoadTexture(glumbus_buffer);
 
     /* Camera initialization */
