@@ -23,20 +23,32 @@ void draw_current_glumbus(Player *p) {
                    WHITE);
 }
 
-void player_move(Player *p) {
+void player_move(Player *p, World *w) {
+    Vector2 transform_vec = {0.0, 0.0};
+
     if (IsKeyDown(KEY_D)) {
-        p->pos.x += 2;
+        transform_vec.x = 2;
         p->mov_dir.x = MOV_RIGHT;
     } else if (IsKeyDown(KEY_A)) {
-        p->pos.x -= 2;
+        transform_vec.x = 2;
         p->mov_dir.x = MOV_LEFT;
+    } else {
+        p->mov_dir.x = 0;
     }
+    transform_vec.x = transform_vec.x * p->mov_dir.x;
 
     if (IsKeyDown(KEY_S)) {
-        p->pos.y += 2;
+        transform_vec.y = 2;
         p->mov_dir.y = MOV_DOWN;
     } else if (IsKeyDown(KEY_W)) {
-        p->pos.y -= 2;
+        transform_vec.y = 2;
         p->mov_dir.y = MOV_UP;
+    } else {
+        p->mov_dir.y = 0;
     }
+    transform_vec.y = transform_vec.y * p->mov_dir.y;
+
+    transform_vec = world_resolve_collision(w, transform_vec, p->pos);
+    p->pos.x += transform_vec.x;
+    p->pos.y += transform_vec.y;
 }

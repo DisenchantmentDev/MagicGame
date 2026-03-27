@@ -20,8 +20,38 @@ void init_world(World *world, Texture2D sheet) {
 
 void draw_world(World *world) {
     for (size_t i = 0; i < world->map.count; ++i) {
+        // DrawRectangleRec(world->map.items[i].destination, RED);
         DrawTexturePro(world->world_sheet, world->map.items[i].source,
                        world->map.items[i].destination, (Vector2){0, 0}, 0.0f,
                        WHITE);
     }
+}
+
+Vector2 world_resolve_collision(World *world, Vector2 transform_vec,
+                                Vector2 pos) {
+    Map m = world->map;
+    Vector2 out = {transform_vec.x, transform_vec.y};
+    Rectangle player_rect = {(pos.x + transform_vec.x),
+                             (pos.y + transform_vec.y), 64, 64};
+    Rectangle tile;
+
+    /* Iterate over each tile in the world map and check collision */
+    for (size_t i = 0; i < m.count; ++i) {
+        tile = m.items[i].destination;
+        if (CheckCollisionRecs(player_rect, tile)) {
+            /* Get the rectangle that represents the overlap of the two rects */
+            Rectangle col_rect = GetCollisionRec(player_rect, tile);
+
+            /* Resolve movement based on the shape of the collision rectangle */
+            if (col_rect.height > col_rect.width) {
+                out.x = 0.0;
+            } else if (col_rect.height < col_rect.width) {
+                out.y = 0.0;
+            } else {
+                out.x = 0.0;
+                out.y = 0.0;
+            }
+        }
+    }
+    return out;
 }

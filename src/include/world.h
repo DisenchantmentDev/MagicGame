@@ -40,3 +40,5 @@ Tile gen_tile(Vector2 source_coord, Vector2 source_size, Vector2 map_coord,
               Vector2 map_size);
 void init_world(World *world, Texture2D sheet);
 void draw_world(World *world);
+Vector2 world_resolve_collision(World *world, Vector2 transform_vec,
+                                Vector2 pos);
