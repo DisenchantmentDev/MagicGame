@@ -47,9 +47,11 @@ Vector2 world_resolve_collision(World *world, Vector2 transform_vec,
                 out.x = 0.0;
             } else if (col_rect.height < col_rect.width) {
                 out.y = 0.0;
-            } else {
-                out.x = 0.0;
-                out.y = 0.0;
+            } else if (col_rect.height == col_rect.width &&
+                       col_rect.height > 2) { // if the collision rectangle has
+                                              // no indication of direction
+                out.x = -1 * (transform_vec.x);
+                out.y = -1 * (transform_vec.y);
             }
         }
     }
