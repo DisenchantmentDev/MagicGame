@@ -1,0 +1,3 @@
+Correct strange diagonal behavior
+Wall kickback on movement vector
+Normalize movement vectors
