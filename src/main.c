@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
         }
 
         /* ---- CONTROLS ---- */
-        player_move(&ctx.player);
+        player_move(&ctx.player, &ctx.world);
 
         /* ---- Camera Follow Player ---- */
         game_update_camera(&ctx);
