@@ -6,6 +6,8 @@
 /* Define the location and size of sprites on the world sprite sheet */
 #define TRUM_SOURCE_COORDS (Vector2){0, 0}
 #define TRUM_SOURCE_SIZE (Vector2){100, 100}
+#define MAGIC_GRASS_SOURCE_COORDS (Vector2){0, 0}
+#define MAGIC_GRASS_SOURCE_SIZE (Vector2){100, 100}
 
 #define da_append(xs, x)                                                       \
     do {                                                                       \

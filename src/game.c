@@ -19,6 +19,10 @@ void game_init(GameCtx *ctx) {
     sprintf(glumbus_buffer, "%s../resources/temp/Trum.png", dir);
     Texture2D trum = LoadTexture(glumbus_buffer);
 
+    sprintf(glumbus_buffer, "%s../resources/temp/Magicgrass_Placeholder.png", dir);
+    Texture2D magic_grass = LoadTexture(glumbus_buffer);
+
+
     /* Camera initialization */
     Camera2D camera = {0};
     camera.target = (Vector2){player.pos.x + 30.0f, player.pos.y + 30.0f};

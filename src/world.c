@@ -13,6 +13,11 @@ void init_world(World *world, Texture2D sheet) {
     Tile trum1 = gen_tile(TRUM_SOURCE_COORDS, TRUM_SOURCE_SIZE,
                           (Vector2){100.0f, 100.0f}, (Vector2){100, 100});
     da_append(&map, trum1);
+    Tile trum2 = gen_tile(TRUM_SOURCE_COORDS, TRUM_SOURCE_SIZE,
+                          (Vector2){000.0f, 100.0f}, (Vector2){100, 100});
+    da_append(&map, trum2);
+    Tile magic_grass1 = gen_tile(MAGIC_GRASS_SOURCE_COORDS, MAGIC_GRASS_SOURCE_SIZE,
+                                (Vector2){000.0f, 000.0f}, (Vector2){100, 100});
 
     world->world_sheet = sheet;
     world->map = map;
