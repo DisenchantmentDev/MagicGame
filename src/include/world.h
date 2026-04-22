@@ -7,7 +7,7 @@
 #define TRUM_SOURCE_COORDS (Vector2){0, 0}
 #define TRUM_SOURCE_SIZE (Vector2){100, 100}
 #define MAGIC_GRASS_SOURCE_COORDS (Vector2){0, 0}  // Use same coords as TRUM for now
-#define MAGIC_GRASS_SOURCE_SIZE (Vector2){16, 16}
+#define MAGIC_GRASS_SOURCE_SIZE (Vector2){100, 100}
 
 #define da_append(xs, x)                                                       \
     do {                                                                       \
@@ -28,10 +28,7 @@ typedef struct {
     Vector2 (*move_behavior)(
         Vector2 transform_vec, Vector2 pos,
         Rectangle tile); // somehow figure out passing in player
-<<<<<<< HEAD
     Texture2D texture;  // Add texture pointer to each tile
-=======
->>>>>>> origin/player_interaction
 } Tile;
 
 typedef struct {
@@ -46,14 +43,10 @@ typedef struct {
 } World;
 
 Tile gen_tile(Vector2 source_coord, Vector2 source_size, Vector2 map_coord,
-              Vector2 map_size,
+              Vector2 map_size, Texture2D texture,
               Vector2 (*move_behavior)(Vector2 transform_vec, Vector2 pos,
                                        Rectangle tile));
-<<<<<<< HEAD
 void init_world(World *world, Texture2D trum_texture, Texture2D grass_texture);
-=======
-void init_world(World *world, Texture2D sheet);
->>>>>>> origin/player_interaction
 void draw_world(World *world);
 Vector2 move_default(Vector2 transform_vec, Vector2 pos);
 Vector2 move_wall(Vector2 transform_vec, Vector2 pos, Rectangle tile);

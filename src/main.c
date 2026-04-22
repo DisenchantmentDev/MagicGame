@@ -29,8 +29,9 @@ int main(int argc, char **argv) {
         ClearBackground(BLACK);
 
         BeginMode2D(ctx.camera);
-        draw_current_glumbus(&ctx.player);
         draw_world(&ctx.world);
+        draw_current_glumbus(&ctx.player);
+        
         // DrawTextureEx(trum, (Vector2){100.0f, 100.0f}, 0.0f, 1.0f, WHITE);
         EndMode2D();
 
