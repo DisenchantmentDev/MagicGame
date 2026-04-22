@@ -1,17 +1,22 @@
 #include "world.h"
 
 Tile gen_tile(Vector2 source_coord, Vector2 source_size, Vector2 map_coord,
-              Vector2 map_size) {
+              Vector2 map_size,
+              Vector2 (*move_behavior)(
+                  Vector2 transform_vec,
+                  Vector2 pos, // I deeply apologize for this nightmare
+                  Rectangle tile)) {
     Rectangle source = {source_coord.x, source_coord.y, source_size.x,
                         source_size.y};
     Rectangle destination = {map_coord.x, map_coord.y, map_size.x, map_size.y};
-    return (Tile){source, destination, move_wall};
+    return (Tile){source, destination, move_behavior};
 }
 
 void init_world(World *world, Texture2D sheet) {
     Map map = {0};
-    Tile trum1 = gen_tile(TRUM_SOURCE_COORDS, TRUM_SOURCE_SIZE,
-                          (Vector2){100.0f, 100.0f}, (Vector2){100, 100});
+    Tile trum1 =
+        gen_tile(TRUM_SOURCE_COORDS, TRUM_SOURCE_SIZE,
+                 (Vector2){100.0f, 100.0f}, (Vector2){100, 100}, move_wall);
     da_append(&map, trum1);
 
     world->world_sheet = sheet;
