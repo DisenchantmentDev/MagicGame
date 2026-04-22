@@ -29,6 +29,12 @@ void init_world(World *world, Texture2D trum_texture, Texture2D grass_texture) {
     Tile trum2 = gen_tile(TRUM_SOURCE_COORDS, TRUM_SOURCE_SIZE,
                           (Vector2){000.0f, 000.0f}, (Vector2){100, 100}, trum_texture);
     da_append(&map, trum2);
+<<<<<<< HEAD
+=======
+    Tile trum3 = gen_tile(TRUM_SOURCE_COORDS, TRUM_SOURCE_SIZE,
+                          (Vector2){100.0f, 000.0f}, (Vector2){100, 100}, trum_texture);
+    da_append(&map, trum3);
+>>>>>>> Matthew-testing-branch
 
     // Store one texture for compatibility (you might not need this anymore)
     world->world_sheet = trum_texture;
