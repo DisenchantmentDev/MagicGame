@@ -1,17 +1,22 @@
 #include "world.h"
 
 Tile gen_tile(Vector2 source_coord, Vector2 source_size, Vector2 map_coord,
-              Vector2 map_size) {
+              Vector2 map_size,
+              Vector2 (*move_behavior)(
+                  Vector2 transform_vec,
+                  Vector2 pos, // I deeply apologize for this nightmare
+                  Rectangle tile)) {
     Rectangle source = {source_coord.x, source_coord.y, source_size.x,
                         source_size.y};
     Rectangle destination = {map_coord.x, map_coord.y, map_size.x, map_size.y};
-    return (Tile){source, destination};
+    return (Tile){source, destination, move_behavior};
 }
 
 void init_world(World *world, Texture2D sheet) {
     Map map = {0};
-    Tile trum1 = gen_tile(TRUM_SOURCE_COORDS, TRUM_SOURCE_SIZE,
-                          (Vector2){100.0f, 100.0f}, (Vector2){100, 100});
+    Tile trum1 =
+        gen_tile(TRUM_SOURCE_COORDS, TRUM_SOURCE_SIZE,
+                 (Vector2){100.0f, 100.0f}, (Vector2){100, 100}, move_wall);
     da_append(&map, trum1);
     Tile trum2 = gen_tile(TRUM_SOURCE_COORDS, TRUM_SOURCE_SIZE,
                           (Vector2){000.0f, 100.0f}, (Vector2){100, 100});
@@ -32,6 +37,29 @@ void draw_world(World *world) {
     }
 }
 
+Vector2 move_wall(Vector2 transform_vec, Vector2 pos, Rectangle tile) {
+    Vector2 out = {transform_vec.x, transform_vec.y};
+    Rectangle player_rect = {(pos.x + transform_vec.x),
+                             (pos.y + transform_vec.y), 64, 64};
+    Rectangle col_rect = GetCollisionRec(player_rect, tile);
+    if (col_rect.height > col_rect.width) {
+        out.x = 0.0;
+    } else if (col_rect.height < col_rect.width) {
+        out.y = 0.0;
+    } else if (col_rect.height == col_rect.width &&
+               col_rect.height > 2) { // if the collision rectangle has
+        // no indication of direction
+        out.x = -1 * (transform_vec.x);
+        out.y = -1 * (transform_vec.y);
+    }
+    return out;
+}
+
+Vector2 move_slow(Vector2 transform_vec, Vector2 pos, Rectangle tile) {
+    Vector2 out = {transform_vec.x * 0.5, transform_vec.y * 0.5};
+    return out;
+}
+
 Vector2 world_resolve_collision(World *world, Vector2 transform_vec,
                                 Vector2 pos) {
     Map m = world->map;
@@ -45,19 +73,7 @@ Vector2 world_resolve_collision(World *world, Vector2 transform_vec,
         tile = m.items[i].destination;
         if (CheckCollisionRecs(player_rect, tile)) {
             /* Get the rectangle that represents the overlap of the two rects */
-            Rectangle col_rect = GetCollisionRec(player_rect, tile);
-
-            /* Resolve movement based on the shape of the collision rectangle */
-            if (col_rect.height > col_rect.width) {
-                out.x = 0.0;
-            } else if (col_rect.height < col_rect.width) {
-                out.y = 0.0;
-            } else if (col_rect.height == col_rect.width &&
-                       col_rect.height > 2) { // if the collision rectangle has
-                                              // no indication of direction
-                out.x = -1 * (transform_vec.x);
-                out.y = -1 * (transform_vec.y);
-            }
+            out = m.items[i].move_behavior(transform_vec, pos, tile);
         }
     }
     return out;
