@@ -25,6 +25,9 @@
 typedef struct {
     Rectangle source;
     Rectangle destination;
+    Vector2 (*move_behavior)(
+        Vector2 transform_vec, Vector2 pos,
+        Rectangle tile); // somehow figure out passing in player
     Texture2D texture;  // Add texture pointer to each tile
 } Tile;
 
@@ -40,8 +43,13 @@ typedef struct {
 } World;
 
 Tile gen_tile(Vector2 source_coord, Vector2 source_size, Vector2 map_coord,
-              Vector2 map_size);
+              Vector2 map_size,
+              Vector2 (*move_behavior)(Vector2 transform_vec, Vector2 pos,
+                                       Rectangle tile));
 void init_world(World *world, Texture2D trum_texture, Texture2D grass_texture);
 void draw_world(World *world);
+Vector2 move_default(Vector2 transform_vec, Vector2 pos);
+Vector2 move_wall(Vector2 transform_vec, Vector2 pos, Rectangle tile);
+Vector2 move_slow(Vector2 transform_vec, Vector2 pos, Rectangle tile);
 Vector2 world_resolve_collision(World *world, Vector2 transform_vec,
                                 Vector2 pos);

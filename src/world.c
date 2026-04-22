@@ -5,7 +5,7 @@ Tile gen_tile(Vector2 source_coord, Vector2 source_size, Vector2 map_coord,
     Rectangle source = {source_coord.x, source_coord.y, source_size.x,
                         source_size.y};
     Rectangle destination = {map_coord.x, map_coord.y, map_size.x, map_size.y};
-    return (Tile){source, destination, texture};  // Include texture
+    return (Tile){source, destination};  // Include texture
 }
 
 void init_world(World *world, Texture2D trum_texture, Texture2D grass_texture) {
@@ -29,12 +29,9 @@ void init_world(World *world, Texture2D trum_texture, Texture2D grass_texture) {
     Tile trum2 = gen_tile(TRUM_SOURCE_COORDS, TRUM_SOURCE_SIZE,
                           (Vector2){000.0f, 000.0f}, (Vector2){100, 100}, trum_texture);
     da_append(&map, trum2);
-<<<<<<< HEAD
-=======
     Tile trum3 = gen_tile(TRUM_SOURCE_COORDS, TRUM_SOURCE_SIZE,
                           (Vector2){100.0f, 000.0f}, (Vector2){100, 100}, trum_texture);
     da_append(&map, trum3);
->>>>>>> Matthew-testing-branch
 
     // Store one texture for compatibility (you might not need this anymore)
     world->world_sheet = trum_texture;
@@ -49,6 +46,23 @@ void draw_world(World *world) {
     }
 }
 
+Vector2 move_wall(Vector2 transform_vec, Vector2 pos, Rectangle tile) {
+    Vector2 out = {transform_vec.x, transform_vec.y};
+    Rectangle player_rect = {(pos.x + transform_vec.x),
+                             (pos.y + transform_vec.y), 64, 64};
+    Rectangle col_rect = GetCollisionRec(player_rect, tile);
+    if (col_rect.height > col_rect.width) {
+        out.x = 0.0;
+    } else if (col_rect.height < col_rect.width) {
+        out.y = 0.0;
+    } else if (col_rect.height == col_rect.width &&
+               col_rect.height > 2) { // if the collision rectangle has
+        // no indication of direction
+        out.x = -1 * (transform_vec.x);
+        out.y = -1 * (transform_vec.y);
+    }
+    return out;
+}
 Vector2 world_resolve_collision(World *world, Vector2 transform_vec,
                                 Vector2 pos) {
     Map m = world->map;
