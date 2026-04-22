@@ -19,8 +19,8 @@ void game_init(GameCtx *ctx) {
     sprintf(glumbus_buffer, "%s../resources/temp/Trum.png", dir);
     Texture2D trum = LoadTexture(glumbus_buffer);
 
-    sprintf(glumbus_buffer, "%s../resources/temp/Magicgrass_Placeholder.png", dir);
-    Texture2D magic_grass = LoadTexture(glumbus_buffer);
+    sprintf(glumbus_buffer, "%s../resources/temp/Shitty_Grass.png", dir);
+    Texture2D grass_texture = LoadTexture(glumbus_buffer);
 
 
     /* Camera initialization */
@@ -33,7 +33,7 @@ void game_init(GameCtx *ctx) {
 
     /* World Initialization */
     World world = {0};
-    init_world(&world, trum);
+    init_world(&world, trum, grass_texture);  // Pass both textures
 
     ctx->player = player;
     ctx->world = world;

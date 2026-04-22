@@ -1,32 +1,43 @@
 #include "world.h"
 
 Tile gen_tile(Vector2 source_coord, Vector2 source_size, Vector2 map_coord,
-              Vector2 map_size) {
+              Vector2 map_size, Texture2D texture) {  // Add texture parameter
     Rectangle source = {source_coord.x, source_coord.y, source_size.x,
                         source_size.y};
     Rectangle destination = {map_coord.x, map_coord.y, map_size.x, map_size.y};
-    return (Tile){source, destination};
+    return (Tile){source, destination, texture};  // Include texture
 }
 
-void init_world(World *world, Texture2D sheet) {
+void init_world(World *world, Texture2D trum_texture, Texture2D grass_texture) {
     Map map = {0};
+    
+
+    
+    // Grass tiles  
+    Tile grass1 = gen_tile(MAGIC_GRASS_SOURCE_COORDS, MAGIC_GRASS_SOURCE_SIZE,
+                          (Vector2){000.0f, 100.0f}, (Vector2){100, 100}, grass_texture);
+    da_append(&map, grass1);
+    
+    Tile grass2 = gen_tile(MAGIC_GRASS_SOURCE_COORDS, MAGIC_GRASS_SOURCE_SIZE,
+                          (Vector2){000.0f, 000.0f}, (Vector2){100, 100}, grass_texture);
+    da_append(&map, grass2);
+     // TRUM tiles
+
     Tile trum1 = gen_tile(TRUM_SOURCE_COORDS, TRUM_SOURCE_SIZE,
-                          (Vector2){100.0f, 100.0f}, (Vector2){100, 100});
+                          (Vector2){100.0f, 100.0f}, (Vector2){100, 100}, trum_texture);
     da_append(&map, trum1);
     Tile trum2 = gen_tile(TRUM_SOURCE_COORDS, TRUM_SOURCE_SIZE,
-                          (Vector2){000.0f, 100.0f}, (Vector2){100, 100});
+                          (Vector2){000.0f, 000.0f}, (Vector2){100, 100}, trum_texture);
     da_append(&map, trum2);
-    Tile magic_grass1 = gen_tile(MAGIC_GRASS_SOURCE_COORDS, MAGIC_GRASS_SOURCE_SIZE,
-                                (Vector2){000.0f, 000.0f}, (Vector2){100, 100});
 
-    world->world_sheet = sheet;
+    // Store one texture for compatibility (you might not need this anymore)
+    world->world_sheet = trum_texture;
     world->map = map;
 }
 
 void draw_world(World *world) {
     for (size_t i = 0; i < world->map.count; ++i) {
-        // DrawRectangleRec(world->map.items[i].destination, RED);
-        DrawTexturePro(world->world_sheet, world->map.items[i].source,
+        DrawTexturePro(world->map.items[i].texture, world->map.items[i].source,
                        world->map.items[i].destination, (Vector2){0, 0}, 0.0f,
                        WHITE);
     }

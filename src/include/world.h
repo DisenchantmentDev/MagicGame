@@ -6,8 +6,8 @@
 /* Define the location and size of sprites on the world sprite sheet */
 #define TRUM_SOURCE_COORDS (Vector2){0, 0}
 #define TRUM_SOURCE_SIZE (Vector2){100, 100}
-#define MAGIC_GRASS_SOURCE_COORDS (Vector2){0, 0}
-#define MAGIC_GRASS_SOURCE_SIZE (Vector2){100, 100}
+#define MAGIC_GRASS_SOURCE_COORDS (Vector2){0, 0}  // Use same coords as TRUM for now
+#define MAGIC_GRASS_SOURCE_SIZE (Vector2){16, 16}
 
 #define da_append(xs, x)                                                       \
     do {                                                                       \
@@ -25,6 +25,7 @@
 typedef struct {
     Rectangle source;
     Rectangle destination;
+    Texture2D texture;  // Add texture pointer to each tile
 } Tile;
 
 typedef struct {
@@ -40,7 +41,7 @@ typedef struct {
 
 Tile gen_tile(Vector2 source_coord, Vector2 source_size, Vector2 map_coord,
               Vector2 map_size);
-void init_world(World *world, Texture2D sheet);
+void init_world(World *world, Texture2D trum_texture, Texture2D grass_texture);
 void draw_world(World *world);
 Vector2 world_resolve_collision(World *world, Vector2 transform_vec,
                                 Vector2 pos);
