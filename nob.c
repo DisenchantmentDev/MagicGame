@@ -21,6 +21,7 @@ int main(int argc, char **argv) {
     nob_log(INFO, "--- STAGE 1 ---");
 
     if (!mkdir_if_not_exists("build")) {
+        nob_log(INFO, "CREATING BUILD FOLDER");
         return 1;
     }
 
